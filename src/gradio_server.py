@@ -14,12 +14,14 @@ llm = LLM()
 report_generator = ReportGenerator(llm)
 subscription_manager = SubscriptionManager(config.subscriptions_file)
 
+
 def export_progress_by_date_range(repo, days):
     # 定义一个函数，用于导出和生成指定时间范围内项目的进展报告
     raw_file_path = github_client.export_progress_by_date_range(repo, days)  # 导出原始数据文件路径
     report, report_file_path = report_generator.generate_report_by_date_range(raw_file_path, days)  # 生成并获取报告内容及文件路径
 
     return report, report_file_path  # 返回报告内容和报告文件路径
+
 
 # 创建Gradio界面
 demo = gr.Interface(
@@ -38,4 +40,4 @@ demo = gr.Interface(
 if __name__ == "__main__":
     demo.launch(share=True, server_name="0.0.0.0")  # 启动界面并设置为公共可访问
     # 可选带有用户认证的启动方式
-    # demo.launch(share=True, server_name="0.0.0.0", auth=("django", "1234"))
+    # demo.launch(share=True, server_name="0.0.0.0", auth=("yudao", "Abc123"))
