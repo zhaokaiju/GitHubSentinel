@@ -24,20 +24,59 @@ def export_progress_by_date_range(repo, days):
 
 
 # 创建Gradio界面
-demo = gr.Interface(
-    fn=export_progress_by_date_range,  # 指定界面调用的函数
-    title="GitHubSentinel",  # 设置界面标题
-    inputs=[
-        gr.Dropdown(
-            subscription_manager.list_subscriptions(), label="订阅列表", info="已订阅GitHub项目"
-        ),  # 下拉菜单选择订阅的GitHub项目
-        gr.Slider(value=2, minimum=1, maximum=7, step=1, label="报告周期", info="生成项目过去一段时间进展，单位：天"),
-        # 滑动条选择报告的时间范围
-    ],
-    outputs=[gr.Markdown(), gr.File(label="下载报告")],  # 输出格式：Markdown文本和文件下载
+github_sentinel_app = gr.Blocks(
+    title="GitHubSentinel - 项目进展追踪",
+    theme=gr.themes.Soft(primary_hue="emerald"),  # 使用现代主题
+    css=".report-box {border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin-top: 20px}"
 )
 
+with github_sentinel_app:
+    gr.Markdown("# 🛰️ GitHubSentinel")
+    gr.Markdown("### 追踪订阅的GitHub项目进展")
+
+    with gr.Row():
+        with gr.Column(scale=3):
+            project = gr.Dropdown(
+                subscription_manager.list_subscriptions(),
+                label="选择订阅项目",
+                info="从已订阅项目中选择",
+                interactive=True
+            )
+            time_range = gr.Slider(
+                value=2,
+                minimum=1,
+                maximum=7,
+                step=1,
+                label="报告周期(天)",
+                info="选择要追踪的时间范围"
+            )
+            submit_btn = gr.Button("生成报告", variant="primary")
+
+        with gr.Column(scale=2):
+            gr.Markdown("### 使用说明")
+            gr.Markdown("""
+            1. 从下拉菜单选择GitHub项目  
+            2. 设置报告周期(1-7天)  
+            3. 点击"生成报告"按钮  
+            4. 查看报告并下载  
+            """)
+
+    with gr.Row():
+        with gr.Column():
+            gr.Markdown("## 📊 项目进展报告")
+            report_output = gr.Markdown(elem_classes="report-box")
+        with gr.Column():
+            gr.Markdown("## 📥 下载报告")
+            file_output = gr.File(label="报告文件", file_count="single")
+
+    # 交互逻辑
+    submit_btn.click(
+        fn=export_progress_by_date_range,
+        inputs=[project, time_range],
+        outputs=[report_output, file_output]
+    )
+
 if __name__ == "__main__":
-    demo.launch(share=True, server_name="0.0.0.0")  # 启动界面并设置为公共可访问
+    github_sentinel_app.launch(share=True, server_name="0.0.0.0")  # 启动界面并设置为公共可访问
     # 可选带有用户认证的启动方式
-    # demo.launch(share=True, server_name="0.0.0.0", auth=("yudao", "Abc123"))
+    # github_sentinel_app.launch(share=True, server_name="0.0.0.0", auth=("yudao", "Abc123"))

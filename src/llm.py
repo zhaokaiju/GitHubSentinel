@@ -1,13 +1,18 @@
 import os
 import json
-from openai import OpenAI  # 导入OpenAI库用于访问GPT模型
+from openai import OpenAI
 from logger import LOG  # 导入日志模块
+
+# DeepSeek的密钥
+DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
+# DeepSeek的官网地址
+DEEPSEEK_API_BASE_URL = "https://api.deepseek.com"
 
 
 class LLM:
     def __init__(self):
         # 创建一个OpenAI客户端实例
-        self.client = OpenAI()
+        self.client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url=DEEPSEEK_API_BASE_URL)
         # 从TXT文件加载提示信息
         with open("prompts/report_prompt.txt", "r", encoding='utf-8') as file:
             self.system_prompt = file.read()
@@ -34,9 +39,9 @@ class LLM:
         LOG.info("Starting report generation using GPT model.")
 
         try:
-            # 调用OpenAI GPT模型生成报告
+            # 调用 DeepSeek 模型生成报告
             response = self.client.chat.completions.create(
-                model="gpt-4o-mini",  # 指定使用的模型版本
+                model="deepseek-chat",  # 指定使用的模型版本
                 messages=messages
             )
             LOG.debug("GPT response: {}", response)
