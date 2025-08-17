@@ -1,8 +1,7 @@
 # src/command_handler.py
 
-import argparse
-
 import argparse  # 导入argparse库，用于处理命令行参数解析
+
 
 class CommandHandler:
     def __init__(self, github_client, subscription_manager, report_generator):
@@ -41,7 +40,8 @@ class CommandHandler:
 
         # 导出特定日期范围进展命令
         parser_export_range = subparsers.add_parser('export-range', help='Export progress over a range of dates')
-        parser_export_range.add_argument('repo', type=str, help='The repository to export progress from (e.g., owner/repo)')
+        parser_export_range.add_argument('repo', type=str,
+                                         help='The repository to export progress from (e.g., owner/repo)')
         parser_export_range.add_argument('days', type=int, help='The number of days to export progress for')
         parser_export_range.set_defaults(func=self.export_progress_by_date_range)
 
@@ -80,7 +80,7 @@ class CommandHandler:
         print(f"Exported progress for the last {args.days} days for repository: {args.repo}")
 
     def generate_daily_report(self, args):
-        self.report_generator.generate_daily_report(args.file)
+        self.report_generator.generate_github_report(args.file)
         print(f"Generated daily report from file: {args.file}")
 
     def print_help(self, args=None):
