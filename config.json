@@ -13,7 +13,7 @@
     "to": "test@zaijidata.com"
   },
   "llm": {
-    "model_type": "ollama",
+    "model_type": "deepseek",
     "deepseek_model_name": "deepseek-chat",
     "ollama_model_name": "deepseek-r1:8b",
     "ollama_api_url": "http://localhost:11434/api/chat"
@@ -22,7 +22,7 @@
     "github",
     "hacker_news_hours_topic",
     "hacker_news_daily_report",
-    "cnblogs_pick"
+    "cnblogs_topic"
   ],
   "slack": {
     "webhook_url": "your_slack_webhook_url"

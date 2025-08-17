@@ -3,7 +3,7 @@ import gradio as gr  # 导入gradio库用于创建GUI
 from config import Config  # 导入配置管理模块
 from github_client import GitHubClient  # 导入用于GitHub API操作的客户端
 from hacker_news_client import HackerNewsClient
-from cnblogs_client import CnblogsPickClient
+from cnblogs_client import CnblogsTopicClient
 from report_generator import ReportGenerator  # 导入报告生成器模块
 from llm import LLM  # 导入可能用于处理语言模型的LLM类
 from subscription_manager import SubscriptionManager  # 导入订阅管理器
@@ -13,7 +13,7 @@ from logger import LOG  # 导入日志记录器
 config = Config()
 github_client = GitHubClient(config.github_token)
 hacker_news_client = HackerNewsClient()  # 创建 Hacker News 客户端实例
-cnblogs_client = CnblogsPickClient()  # 创建 Cnblogs 客户端实例
+cnblogs_client = CnblogsTopicClient()  # 创建 Cnblogs 客户端实例
 subscription_manager = SubscriptionManager(config.subscriptions_file)
 
 

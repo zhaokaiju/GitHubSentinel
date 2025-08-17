@@ -99,7 +99,7 @@ class ReportGenerator:
         report = self.llm.generate_report(system_prompt, markdown_content)
 
         report_file_path = os.path.splitext(markdown_file_path)[0] + "_topic.md"
-        with open(report_file_path, 'w+', encoding="utf-8") as report_file:
+        with open(report_file_path, 'w+') as report_file:
             report_file.write(report)
 
         LOG.info(f"cnblogs 的最新精华区博文报告已保存到 {report_file_path}")

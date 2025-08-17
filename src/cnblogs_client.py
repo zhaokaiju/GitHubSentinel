@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup  # 导入BeautifulSoup库用于解析HTML内容
 from logger import LOG  # 导入日志模块
 
 
-class CnblogsPickClient:
+class CnblogsTopicClient:
     def __init__(self):
         self.url = "https://www.cnblogs.com/pick/"
 
@@ -73,15 +73,15 @@ class CnblogsPickClient:
         os.makedirs(dir_path, exist_ok=True)  # 确保目录存在
 
         file_path = os.path.join(dir_path, f'{hour}.md')  # 定义文件路径
-        with open(file_path, 'w', encoding="utf-8") as file:
-            file.write(f"# Cnblogs Pick Top articles ({date} {hour}:00)\n\n")
+        with open(file_path, 'w') as file:
+            file.write(f"# Cnblogs Topic Top articles ({date} {hour}:00)\n\n")
             for idx, article in enumerate(top_articles, start=1):
-                file.write(f"{idx}. [{article['title']}]({article['link']}) 【{article['summary']}】\n")
+                file.write(f"{idx}. [{article['title']}]({article['link']})\n")
 
         LOG.info(f"cnblogs 的最新精华区博文文件生成：{file_path}")
         return file_path
 
 
 if __name__ == "__main__":
-    client = CnblogsPickClient()
+    client = CnblogsTopicClient()
     client.export_top_articles()  # 默认情况下使用当前日期和时间

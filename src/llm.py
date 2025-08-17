@@ -56,6 +56,7 @@ class LLM:
         :return: 生成的报告内容。
         """
         LOG.info(f"使用 DeepSeek {self.config.deepseek_model_name} 模型生成报告。")
+        LOG.info(f"调用消息 {messages} ")
         try:
             response = self.client.chat.completions.create(
                 model=self.config.deepseek_model_name,
